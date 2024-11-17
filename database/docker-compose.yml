@@ -1,0 +1,34 @@
+version: '3.8' 
+ 
+services: 
+  postgres: 
+    image: postgres:13 
+    container_name: my_postgres_db 
+    environment: 
+      - POSTGRES_DB=postgres  # Set your desired database name 
+      - POSTGRES_USER=postgres     # Set your desired username 
+      - POSTGRES_PASSWORD=123321  # Set your desired password 
+    ports: 
+      - "15432:5432" 
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data 
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Reference to init.sql in the same directory 
+    networks: 
+      - my_network 
+ 
+  pgadmin: 
+    image: dpage/pgadmin4 
+    container_name: my_pgadmin 
+    environment: 
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com  # Set your desired email 
+      - PGADMIN_DEFAULT_PASSWORD=admin         # Set your desired pgAdmin password 
+    ports: 
+      - "8080:80" 
+    networks: 
+      - my_network 
+ 
+volumes: 
+  postgres_data: 
+ 
+networks: 
+  my_network:
